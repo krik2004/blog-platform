@@ -60,18 +60,19 @@ const Header = () => {
 					) : (
 						<>
 							<span className={styles['user-name']}>
-								{data && data.user ? (
-									<Link to={`/profile`}>{data.user.username}</Link>
-								) : (
-									'Имя пользователя недоступно'
-								)}
+								{/* {data && data.user ? ( */}
+								<Link to={`/profile`}>{data.user.username}</Link>
+								{/* ) : ( */}
+								{/* 'Имя пользователя недоступно' */}
+								{/* )} */}
 							</span>
-
-							<img
-								className={styles['person-avatar']}
-								src={data.user.image || defaultImage}
-								alt='аватар'
-							/>
+							<Link to={`/profile`}>
+								<img
+									className={styles['person-avatar']}
+									src={data.user.image || defaultImage}
+									alt='аватар'
+								/>
+							</Link>
 						</>
 					)}
 

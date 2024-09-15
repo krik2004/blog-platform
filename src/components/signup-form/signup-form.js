@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './signup-form.module.css'
 import { useForm } from 'react-hook-form'
 import { signUpApi } from './api-signup'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignupForm = () => {
 	const {
@@ -163,7 +163,7 @@ const SignupForm = () => {
 						</button>
 					</div>
 					<span className={styles['sign-in']}>
-						Already have an account? Sign In.
+						Already have an account? <Link to={`/sign-in`}>Sign In.</Link>
 						{isLoading && <p>Загрузка...</p>}
 						{response && <p>Регистрация прошла успешно!</p>}
 					</span>

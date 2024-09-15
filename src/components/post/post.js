@@ -43,15 +43,15 @@ const Post = post => {
 					</Button>
 				</div>
 				<ul className={styles.post__tagList}>
-					{post.post.tagList && post.post.tagList.length > 0 ? (
-						post.post.tagList.map(tag => (
-							<Tag key={uuidv4()} className={styles.customTag}>
-								{tag}
-							</Tag>
-						))
-					) : (
-						<div className={styles['post__content-text']}>No tags</div>
-					)}
+					{post.post.tagList && post.post.tagList.length > 0
+						? post.post.tagList
+								.filter(tag => tag.trim() !== '')
+								.map(tag => (
+									<Tag key={uuidv4()} className={styles.customTag}>
+										{tag}
+									</Tag>
+								))
+						: null}
 				</ul>
 				<div className={styles['post__content-text']}>
 					{post.post.description

@@ -83,3 +83,47 @@
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 }
+.header__button-create-article {
+	border-color: #52c41a;
+	color: #52c41a;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 32px;
+	letter-spacing: 0%;
+	text-align: left;
+	width: 65.23px;
+	height: 32px;
+}
+.header__button-create-article:hover {
+	border-color: #51ff00 !important;
+	color: #55ff00 !important;
+	background-color: #ffffff !important;
+}
+
+.header__button-delete-article {
+	border: #ff2d55 solid 1px !important;
+	color: #ff2d55 !important;
+
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 32px;
+	letter-spacing: 0%;
+	text-align: left;
+	width: 65.23px;
+	height: 32px;
+}
+.header__button-delete-article:hover {
+	border: #c8102e solid 1px !important;
+	color: #c8102e !important;
+
+	background-color: #ffffff !important;
+}
+.article__buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	gap: 12px;
+	margin-top: 30px;
+}

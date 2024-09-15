@@ -15,11 +15,11 @@ const NewArticleForm = () => {
 		getValues,
 		control,
 	} = useForm({
-		mode: 'onChange',
-		reValidateMode: 'onChange',
-		defaultValues: {
-			tagList: [''], // Инициализация с одним пустым тегом
-		},
+		mode: 'onBlur',
+		reValidateMode: 'onhange',
+		// defaultValues: {
+		// 	tagList: [''],
+		// },
 	})
 
 	const { fields, append, remove } = useFieldArray({
@@ -36,12 +36,12 @@ const NewArticleForm = () => {
 		console.log(articleData)
 		try {
 			const result = await newArticle(articleData).unwrap()
-			console.log('пост ушел , пришел ответ:', result)
-			navigate("/");
+			// console.log('пост ушел , пришел ответ:', result)
+			navigate('/')
 			// const result = await signUp(JSON.stringify({ user: userData })).unwrap()
 			// reset();
 		} catch (error) {
-			console.error('Ошибка при регистрации:', error)
+			// console.error('Ошибка при регистрации:', error)
 			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
 		}
 	}
@@ -143,67 +143,61 @@ const NewArticleForm = () => {
 							/>
 						</label>
 						<div className={styles['error']}>
-							{errors?.text && <span>{errors?.text?.message || 'Error!'}</span>}
+							{errors?.body && <span>{errors?.body?.message || 'Error!'}</span>}
 						</div>
 					</div>
 
 					{/* Tags */}
 					<div className={styles['tag-wrapper']}>
 						<div className={styles['input-wrapper']}>
-							<label className={styles['label']}>
-								Tags
-								{/* {fields.length === 0 && append('')} */}
-								{fields.map((item, index) => (
-									<div key={item.id} className={styles['tag-item']}>
-										<div className={styles['input-error']}>
-											<input
-												className={styles['tag']}
-												placeholder='Tag'
-												{...register(`tagList[${index}]`, {
-													required: 'Поле обязательно к заполнению',
-													minLength: {
-														value: 3,
-														message: 'Тэг должен быть минимум 3 символа',
-													},
-													maxLength: {
-														value: 20,
-														message: 'Тэг не может быть более 10 символов',
-													},
-													pattern: {
-														value: /^[a-zA-Z0-9_]+$/,
-														message:
-															'Тэг может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
-													},
-												})}
-												// name={`tags[${index}].value`}
-												// ref={register}
-												defaultValue={item.value}
-											/>
+							{fields.length > 0 && ( // Условие для отображения заголовка
+								<label className={styles['label']}>Tags</label>
+							)}
 
-											<div className={styles['error']}>
-												{errors?.tagList && errors.tagList[index] && (
-													<span>{errors.tagList[index].message}</span>
-												)}
-											</div>
+							{/* {fields.length === 0 && append('')} */}
+							{fields.map((item, index) => (
+								<div key={item.id} className={styles['tag-item']}>
+									<div className={styles['input-error']}>
+										<input
+											className={styles['tag']}
+											placeholder='Tag'
+											{...register(`tagList[${index}]`, {
+												required: 'Поле обязательно к заполнению',
+												minLength: {
+													value: 3,
+													message: 'Тэг должен быть минимум 3 символа',
+												},
+												maxLength: {
+													value: 20,
+													message: 'Тэг не может быть более 10 символов',
+												},
+												pattern: {
+													value: /^[a-zA-Z0-9_]+$/,
+													message:
+														'Тэг может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
+												},
+											})}
+											// ref={register}
+											defaultValue={item.value}
+										/>
 
-											<div className={styles['error']}>
-												{errors?.title && (
-													<span>{errors?.title?.message || 'Error!'}</span>
-												)}
-											</div>
+										<div className={styles['error']}>
+											{errors?.tagList && errors.tagList[index] && (
+												<span>{errors.tagList[index].message}</span>
+											)}
 										</div>
-
-										<Button
-											className={styles['button-delTag']}
-											type='text'
-											onClick={() => remove(index)}
-											disabled={fields.length <= 1}
-										>
-											Delete
-										</Button>
 									</div>
-								))}
-							</label>
+
+									<Button
+										className={styles['button-delTag']}
+										type='text'
+										onClick={() => remove(index)}
+										// disabled={fields.length <= 1}
+									>
+										Delete
+									</Button>
+								</div>
+							))}
 						</div>
 
 						<Button
@@ -227,6 +221,7 @@ const NewArticleForm = () => {
 							Create
 						</button>
 					</div>
+					
 				</form>
 			</div>
 		</article>

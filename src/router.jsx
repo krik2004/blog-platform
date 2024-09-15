@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import React from 'react'
-// import Article from "./components/article/article";
+import Article from "./components/article/article";
 import Posts from './components/posts/posts'
 // import { articleApi } from "./components/article/api-posts";
 import SignupForm from './components/signup-form/signup-form'
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
 				// 	)
 				// 	return data
 				// },
-				// element: <Article />,
+				element: <Article />,
 			},
 			{
 				path: `/sign-up`,
@@ -51,8 +51,8 @@ const router = createBrowserRouter([
 				element: <NewArticleForm />,
 			},
 			{
-				path: `/articles/edit`,
-				// /articles/{slug}/edit
+				path: `/articles/:slug/edit`,
+				// /articles/edit
 				element: <EditArticleForm />,
 			},
 		],

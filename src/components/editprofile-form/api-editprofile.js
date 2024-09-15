@@ -3,7 +3,7 @@ import { baseApi } from '../../shared/apiSlice'
 export const editprofileApi = baseApi.injectEndpoints({
 	endpoints: build => ({
 		editprofile: build.mutation({
-			query: ({ data, userToken }) => ({
+			query: ( data ) => ({
 				url: '/user',
 				method: 'PUT',
 				body: JSON.stringify({
@@ -16,7 +16,7 @@ export const editprofileApi = baseApi.injectEndpoints({
 				}),
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${userToken}`,
+					Authorization: `Bearer ${localStorage.getItem('user.token')}`,
 				},
 			}),
 		}),

@@ -55,7 +55,7 @@ const EditprofileForm = () => {
 			navigate("/");
 			// reset();
 		} catch (error) {
-			// console.error('Ошибка при регистрации:', error)
+			console.error('Ошибка при регистрации:', error)
 			alert(
 			  "Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз."
 			);
