@@ -52,7 +52,6 @@ const router = createBrowserRouter([
 			},
 			{
 				path: `/articles/:slug/edit`,
-				// /articles/edit
 				element: <EditArticleForm />,
 			},
 		],

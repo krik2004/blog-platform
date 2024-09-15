@@ -22,22 +22,20 @@ const Header = () => {
 	}
 
 	const userToken = window.localStorage.getItem('user.token')
-	// console.log('в хедере ', userToken)
 
 	const { data, isLoading, error } = getUserInfoApi.useGetUserInfoQuery(
 		userToken || '',
 		{
-			skip: !userToken, // Пропустить запрос, если нет токена
+			skip: !userToken,
 		}
 	)
 
-	// useEffect(() => {
-	// 	if (!isLoading && data) {
-	// 		console.log('в хедере данные о юзере:', data)
-	// 	}
-	// }, [isLoading, data])
+	useEffect(() => {
+		if (data) {
+			console.log('getUserInfoApi header: ', data)
+		}
+	}, [data])
 
-	// console.log(data)
 	const defaultImage =
 		'https://i.pinimg.com/736x/b7/5b/29/b75b29441bbd967deda4365441497221.jpg'
 	return (

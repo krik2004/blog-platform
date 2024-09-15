@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from './edirarticle-form.module.css'
 import { editArticleApi } from './api-edirarticle'
-import { useNavigate } from 'react-router-dom'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { articleApi } from '../article/api-posts'
 import { useParams } from 'react-router-dom'
@@ -9,12 +8,16 @@ import { Button } from 'antd'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
+import { useNavigate } from 'react-router-dom'
+
 const EditArticleForm = () => {
 	const { slug } = useParams()
 	const { data, isArticleDataLoading } = articleApi.useGetArticleQuery(slug)
 
 	const [editArticle, { isArticleEditedDataLoading, response }] =
 		editArticleApi.useEditArticleMutation()
+		
+	const navigate = useNavigate()
 
 	const {
 		register,
@@ -39,12 +42,10 @@ const EditArticleForm = () => {
 	}, [data, isArticleDataLoading, setValue])
 
 	const onSubmit = async articleData => {
-		console.log(slug)
-
 		try {
-			const result = await editArticle({ data: articleData, slug }).unwrap()
-
-			console.log('результат изменения статьи: ', result)
+			await editArticle({ data: articleData, slug }).unwrap()
+			navigate('/')
+			// console.log('результат изменения статьи: ', result)
 		} catch (error) {
 			console.error('Ошибка при изменении статьи:', error)
 			alert(
