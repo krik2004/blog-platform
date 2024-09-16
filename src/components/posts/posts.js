@@ -6,6 +6,7 @@ import { useState } from 'react'
 import styles from './posts.module.css'
 
 const Posts = () => {
+	
 	const [currentPage, setCurrentPage] = useState(1)
 	const [currentOffset, setCurrentOffset] = useState(0)
 

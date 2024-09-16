@@ -13,6 +13,7 @@ import { getUserInfoApi } from '../footer/api-userInfo'
 
 const Article = () => {
 	const { slug } = useParams()
+	const navigate = useNavigate()
 	const userToken1 = window.localStorage.getItem('user.token')
 
 	const {
@@ -23,59 +24,80 @@ const Article = () => {
 		skip: !userToken1,
 	})
 
-	const [liked, setLiked] = useState(false)
+	const [
+		favoriteArticle,
+		{ isLoadingFavoritedArticleData, favoritedArticleData },
+	] = articleApi.useFavoriteArticleMutation(slug)
 
-	const handleLike = () => {
-		setLiked(!liked)
+	const [
+		unfavoriteArticle,
+		{ isLoadingUnfavoritedArticleData, unfavoritedArticleData },
+	] = articleApi.useUnfavoriteArticleMutation(slug)
+
+
+	// const [liked, setLiked] = useState(false)
+
+
+	if (isLoadingFavoritedArticleData) {
+		return <div>isLoadingFavoritedArticleData Loading...</div>
 	}
-	const navigate = useNavigate()
+
+	if (isLoadingUnfavoritedArticleData) {
+		return <div>isLoadingUnfavoritedArticleData Loading...</div>
+	}
 
 	const { data, isLoading } = articleApi.useGetArticleQuery(slug)
-	// const article = data?.article
-
-	// if (isLoading || isLoadingUser) {
-	// 	return <div>Loading...</div> // Показываем индикатор загрузки, пока загружаются данные
-	// }
-
-	// if (errorUser) {
-	// 	return <div>Error loading user info</div> // Обработка ошибок
-	// }
-
-	// if (!article) {
-	// 	return <div>Article not found</div> // Обработка отсутствия статьи
-	// }
-
-
-
 
 	const [deleteArticle, { isDeleteArticleLoading, response }] =
 		articleApi.useDeleteArticleMutation()
 
 	if (isLoadingUser) {
-		return <div>Loading...</div>
+		return <div>Loading isLoadingUser...</div>
 	}
-
+	if (errorUser) {
+		return <div>{errorUser}isLoadingUser...</div>
+	}
 	if (errorUser) {
 		console.error('Error fetching user info:', errorUser)
 		return <div>Error fetching user info</div>
 	}
-
-	if (dataUser) {
-		console.log('getUserInfoApi article: ', dataUser)
-	}
-
 	if (isLoading || !data) {
 		return <div>Loading...</div>
 	}
 	if (!data) {
 		return <div>Error: No articles found.</div>
 	}
-
+	console.log(data)
 	const { article } = data
 
-	if (!isLoading || data) {
-		console.log('автор статьи: ', article.author.username)
+	const handleLike = async () => {
+		// setLiked(!liked)
+		if (!article.favorited) {
+			try {
+				const response = await favoriteArticle(slug)
+				console.log('like?', response.data.article.favorited)
+				// .data.article.favorited
+			} catch (error) {
+				console.log(error)
+			}
+		}else{
+			try {
+                const response = await unfavoriteArticle(slug)
+                console.log('like?', response.data.article.favorited)
+                //.data.article.favorited
+            } catch (error) {
+                console.log(error)
+            }
+		}
 	}
+
+	// if (dataUser) {
+	// 	console.log('getUserInfoApi article: ', dataUser)
+	// }
+
+	// if (!isLoading || data) {
+	// 	console.log('автор статьи: ', article.author.username)
+	// }
 
 	const { format } = require('date-fns')
 
@@ -88,8 +110,11 @@ const Article = () => {
 		}
 	}
 
+	if (!dataUser) {
+		return <div>Loading user data...</div>
+	}
+
 	const isAuthor = article.author.username === dataUser.user.username
-	// console.log('сравнение ', article.author.username, dataUser.user.username)
 
 	const handleEditArticle = () => {
 		navigate(`/articles/${slug}/edit`)
@@ -100,7 +125,7 @@ const Article = () => {
 				<div className={styles['article__title-wrapper']}>
 					<h5 className={styles.article__title}>{article.title}</h5>
 					<Button onClick={handleLike} type='link'>
-						{liked ? (
+						{article.favorited ? (
 							<HeartFilled style={{ color: 'red' }} />
 						) : (
 							<HeartOutlined />
@@ -109,15 +134,13 @@ const Article = () => {
 					</Button>
 				</div>
 				<ul className={styles.article__tagList}>
-					{article.tagList && article.tagList.length > 0 ? (
-						article.tagList.map(tag => (
-							<Tag key={uuidv4()} className={styles.customTag}>
-								{tag}
-							</Tag>
-						))
-					) : (
-						<div className={styles['article__content-text']}>No tags</div>
-					)}
+					{article.tagList && article.tagList.length > 0
+						? article.tagList.map(tag => (
+								<Tag key={uuidv4()} className={styles.customTag}>
+									{tag}
+								</Tag>
+							))
+						: null}
 				</ul>
 				<div className={styles['article__content-text']}>
 					{article.description ? article.description : 'No description'}
@@ -145,68 +168,8 @@ const Article = () => {
 						alt='аватар'
 					/>
 				</div>
-
-				{userToken1 ? (
-					<>
-						<div className={styles['article__buttons']}>
-							<Popconfirm
-								title='Delete the article'
-								description='Are you sure to delete this article?'
-								onConfirm={confirm}
-								okText='Yes'
-								cancelText='No'
-								placement={'right'}
-							>
-								<Button
-									className={styles['header__button-delete-article']}
-									type='text'
-									danger
-								>
-									Delete
-								</Button>
-							</Popconfirm>
-							<Button
-								className={styles['header__button-create-article']}
-								type='text'
-								onClick={handleEditArticle}
-							>
-								Edit
-							</Button>
-						</div>
-
-						{isLoading ? (
-							<div>loading...</div>
-						) : (
-							<>
-								<span className={styles['user-name']}>
-									{/* {data && data.user ? ( */}
-									{/* <Link to={`/profile`}>{data.user.username}</Link> */}
-									{/* ) : ( */}
-									{/* 'Имя пользователя недоступно' */}
-									{/* )} */}
-								</span>
-							</>
-						)}
-					</>
-				) : (
-					<>
-						<Button
-							className={styles['header__button-signIn']}
-							type='text'
-							// onClick={handleClickSignIn}
-						>
-							Sign In
-						</Button>
-						<Button
-							className={styles['header__button-signUp']}
-							// onClick={handleClick}
-						>
-							Sign Up
-						</Button>
-					</>
-				)}
 				<>
-					{userToken1 ? (
+					{userToken1 && (
 						<>
 							{isAuthor && (
 								<div className={styles['article__buttons']}>
@@ -235,26 +198,6 @@ const Article = () => {
 									</Button>
 								</div>
 							)}
-
-							<span className={styles['user-name']}>
-								{dataUser.user.username}
-							</span>
-						</>
-					) : (
-						<>
-							<Button
-								className={styles['header__button-signIn']}
-								type='text'
-								// onClick={handleClickSignIn}
-							>
-								Sign In
-							</Button>
-							<Button
-								className={styles['header__button-signUp']}
-								// onClick={handleClick}
-							>
-								Sign Up
-							</Button>
 						</>
 					)}
 				</>

@@ -30,11 +30,11 @@ const Header = () => {
 		}
 	)
 
-	useEffect(() => {
-		if (data) {
-			console.log('getUserInfoApi header: ', data)
-		}
-	}, [data])
+	// useEffect(() => {
+	// 	if (data) {
+	// 		console.log('getUserInfoApi header: ', data)
+	// 	}
+	// }, [data])
 
 	const defaultImage =
 		'https://i.pinimg.com/736x/b7/5b/29/b75b29441bbd967deda4365441497221.jpg'

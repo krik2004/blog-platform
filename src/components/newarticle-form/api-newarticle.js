@@ -14,6 +14,7 @@ export const newArticleApi = baseApi.injectEndpoints({
 					Authorization: `Bearer ${localStorage.getItem('user.token')}`,
 				},
 			}),
+			invalidatesTags: ['articles'],
 		}),
 	}),
 	overrideExisting: true,

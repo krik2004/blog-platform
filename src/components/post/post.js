@@ -7,15 +7,47 @@ import { Tag } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 
+import { articleApi } from '../article/api-posts'
+
 const Post = post => {
-	const [liked, setLiked] = useState(false)
-	// console.log('пост', post.post)
-	// console.log('содержание ', post.post.description)
-	// console.log('длина ', post.post.description.length)
-	// console.log(typeof post.post.title.author)
-	const handleLike = () => {
-		setLiked(!liked)
+	// const [liked, setLiked] = useState(false)
+	// console.log(post.post.favorited)
+
+	const [
+		favoriteArticle,
+		{ isLoadingFavoritedArticleData, favoritedArticleData },
+	] = articleApi.useFavoriteArticleMutation(post.post.slug)
+
+	const [
+		unfavoriteArticle,
+		{ isLoadingUnfavoritedArticleData, unfavoritedArticleData },
+	] = articleApi.useUnfavoriteArticleMutation(post.post.slug)
+
+	const handleLike = async () => {
+		// setLiked(!liked)
+		if (!post.post.favorited) {
+			try {
+				const response = await favoriteArticle(post.post.slug)
+				console.log('like?', response.data.article.favorited)
+				// .data.article.favorited
+			} catch (error) {
+				console.log(error)
+			}
+		} else {
+			try {
+				const response = await unfavoriteArticle(post.post.slug)
+				console.log('like?', response.data.article.favorited)
+				//.data.article.favorited
+			} catch (error) {
+				console.log(error)
+			}
+		}
 	}
+
+	// const handleLike = () => {
+	// 	setLiked(!liked)
+	// }
+
 	const { format } = require('date-fns')
 	const shortenText = (text, maxLength) => {
 		if (text.length <= maxLength) {
@@ -34,7 +66,7 @@ const Post = post => {
 					</h5>
 
 					<Button onClick={handleLike} type='link'>
-						{liked ? (
+						{post.post.favorited ? (
 							<HeartFilled style={{ color: 'red' }} />
 						) : (
 							<HeartOutlined />
