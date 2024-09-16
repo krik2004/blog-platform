@@ -11,6 +11,7 @@ export const getUserInfoApi = baseApi.injectEndpoints({
 					},
 				}
 			},
+			providesTags: ['user'],
 		}),
 	}),
 	overrideExisting: true,

@@ -3,6 +3,6 @@ const baseUrl = 'https://blog.kata.academy/api/'
 
 export const baseApi = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl }), // базовый урл
-	tagTypes: ['article', 'articles'],
+	tagTypes: ['article', 'articles', 'user'],
 	endpoints: () => ({}),
 })

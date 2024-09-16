@@ -3,28 +3,19 @@ import { baseApi } from '../../shared/apiSlice'
 export const editprofileApi = baseApi.injectEndpoints({
 	endpoints: build => ({
 		editprofile: build.mutation({
-			query: ( data ) => ({
+			query: userData => ({
 				url: '/user',
 				method: 'PUT',
 				body: JSON.stringify({
-					user: {
-						username: data.username,
-						email: data.email,
-						password: data.newpassword,
-						image: data.image,
-					},
+					user: userData.data,
 				}),
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${localStorage.getItem('user.token')}`,
 				},
 			}),
+			invalidatesTags: ['user', 'article', 'articles'],
 		}),
-		// transformResponse: response => {
-
-		// 	localStorage.setItem('user.token', response.user.token)
-
-		// },
 	}),
 	overrideExisting: true,
 })

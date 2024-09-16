@@ -3,7 +3,7 @@
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: center; /* или другие значения в зависимости от вашего дизайна */
-	height: 599px;
+	height: auto;
 	max-width: 384px;
 	border-radius: 5px;
 	background: rgb(255, 255, 255);

@@ -40,25 +40,20 @@ const EditprofileForm = () => {
 	const [editprofile, { isLoading, response }] =
 		editprofileApi.useEditprofileMutation()
 
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
 	const onSubmit = async userData => {
 		console.log({ data: userData, userToken })
 
 		try {
 			console.log('пушу данные ', userData)
-			const resultEdit = await editprofile({
-				data: userData,
-				userToken,
-			}).unwrap()
+			const resultEdit = await editprofile({ data: userData }).unwrap()
 			console.log('resultEdit', resultEdit)
-			navigate("/");
+			navigate('/')
 			// reset();
 		} catch (error) {
 			console.error('Ошибка при регистрации:', error)
-			alert(
-			  "Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз."
-			);
+			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
 		}
 	}
 	if (isUserInfoLoading) return <Spin indicator={<LoadingOutlined spin />} />
@@ -201,9 +196,8 @@ const EditprofileForm = () => {
 					</div>
 					<span className={styles['sign-in']}>
 						Already have an account? Sign In.
-						{isValid}
-						{isLoading && <p>Загрузка...</p>}
-						{response && <p>Изменения прошли успешно!</p>}
+						{/* {isValid}
+						{isLoading && <p>Загрузка...</p>} */}
 					</span>
 				</form>
 			</div>
