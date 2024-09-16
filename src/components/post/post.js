@@ -10,9 +10,6 @@ import { Link } from 'react-router-dom'
 import { articleApi } from '../article/api-posts'
 
 const Post = post => {
-	// const [liked, setLiked] = useState(false)
-	// console.log(post.post.favorited)
-
 	const [
 		favoriteArticle,
 		{ isLoadingFavoritedArticleData, favoritedArticleData },
@@ -24,29 +21,20 @@ const Post = post => {
 	] = articleApi.useUnfavoriteArticleMutation(post.post.slug)
 
 	const handleLike = async () => {
-		// setLiked(!liked)
 		if (!post.post.favorited) {
 			try {
-				const response = await favoriteArticle(post.post.slug)
-				console.log('like?', response.data.article.favorited)
-				// .data.article.favorited
+				await favoriteArticle(post.post.slug)
 			} catch (error) {
 				console.log(error)
 			}
 		} else {
 			try {
-				const response = await unfavoriteArticle(post.post.slug)
-				console.log('like?', response.data.article.favorited)
-				//.data.article.favorited
+				await unfavoriteArticle(post.post.slug)
 			} catch (error) {
 				console.log(error)
 			}
 		}
 	}
-
-	// const handleLike = () => {
-	// 	setLiked(!liked)
-	// }
 
 	const { format } = require('date-fns')
 	const shortenText = (text, maxLength) => {
@@ -103,7 +91,7 @@ const Post = post => {
 				<img
 					className={styles['post__person-avatar']}
 					src={post.post.author.image}
-					alt='аватар'
+					alt='avatar'
 				/>
 			</div>
 		</article>

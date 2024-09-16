@@ -5,33 +5,23 @@ import { signUpApi } from './api-editprofile'
 import { useNavigate } from 'react-router-dom'
 import { getUserInfoApi } from '../footer/api-userInfo'
 import { editprofileApi } from './api-editprofile'
-
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 const EditprofileForm = () => {
 	const userToken = window.localStorage.getItem('user.token')
-	// console.log("в форме редактирования ", userToken);
 
 	const { data, isUserInfoLoading, error } = getUserInfoApi.useGetUserInfoQuery(
 		userToken || '',
 		{
-			skip: !userToken, // пропустить запрос, если нет токена
+			skip: !userToken,
 		}
 	)
-
-	// {
-	//   !isUserInfoLoading
-	//     ? console.log("data.user.username загружается")
-	//     : console.log(data.user.username);
-	// }
 
 	const {
 		register,
 		formState: { errors, isValid },
 		handleSubmit,
-		// reset,
-		getValues,
 	} = useForm({
 		mode: 'onChange',
 		reValidateMode: 'onBlur',
@@ -43,14 +33,9 @@ const EditprofileForm = () => {
 	const navigate = useNavigate()
 
 	const onSubmit = async userData => {
-		console.log({ data: userData, userToken })
-
 		try {
-			console.log('пушу данные ', userData)
-			const resultEdit = await editprofile({ data: userData }).unwrap()
-			console.log('resultEdit', resultEdit)
+			await editprofile({ data: userData }).unwrap()
 			navigate('/')
-			// reset();
 		} catch (error) {
 			console.error('Ошибка при регистрации:', error)
 			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
@@ -67,16 +52,12 @@ const EditprofileForm = () => {
 						<label className={styles['label']}>
 							Username
 							{isUserInfoLoading ? (
-								<Spin
-									indicator={<LoadingOutlined spin />}
-									// style={{ marginTop: 30, marginBottom: 11 }}
-								/>
+								<Spin indicator={<LoadingOutlined spin />} />
 							) : (
 								<input
 									className={styles['input']}
 									placeholder='Username'
 									defaultValue={data?.user?.username || ''}
-									// value={data.user.username}
 									{...register('username', {
 										required: 'Поле обязательно к заполнению',
 										minLength: {
@@ -108,16 +89,12 @@ const EditprofileForm = () => {
 						<label className={styles['label']}>
 							Email address
 							{isUserInfoLoading ? (
-								<Spin
-									indicator={<LoadingOutlined spin />}
-									// style={{ marginTop: 30, marginBottom: 11 }}
-								/>
+								<Spin indicator={<LoadingOutlined spin />} />
 							) : (
 								<input
 									className={styles['input']}
 									placeholder='Email address'
 									defaultValue={data?.user?.email || ''}
-									// value={data.user.email}
 									{...register('email', {
 										required: 'Поле обязательно к заполнению',
 										pattern: {
@@ -143,7 +120,6 @@ const EditprofileForm = () => {
 								className={styles['input']}
 								placeholder='New Password'
 								{...register('newpassword', {
-									//   required: "Поле обязательно к заполнению",
 									minLength: {
 										value: 6,
 										message: 'Пароль должен быть минимум 6 символов',
@@ -170,7 +146,6 @@ const EditprofileForm = () => {
 								className={styles['input']}
 								placeholder='Avatar image (url)'
 								{...register('image', {
-									//   required: "Поле обязательно к заполнению",
 									pattern: {
 										value: /^(ftp|http|https):\/\/[^ "]+$/,
 										message: 'Введите корректный URL',
@@ -194,11 +169,6 @@ const EditprofileForm = () => {
 							Save
 						</button>
 					</div>
-					<span className={styles['sign-in']}>
-						Already have an account? Sign In.
-						{/* {isValid}
-						{isLoading && <p>Загрузка...</p>} */}
-					</span>
 				</form>
 			</div>
 		</article>

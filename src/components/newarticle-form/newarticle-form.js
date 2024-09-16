@@ -11,15 +11,10 @@ const NewArticleForm = () => {
 		register,
 		formState: { errors, isValid },
 		handleSubmit,
-		// reset,
-		getValues,
 		control,
 	} = useForm({
 		mode: 'onBlur',
 		reValidateMode: 'onhange',
-		// defaultValues: {
-		// 	tagList: [''],
-		// },
 	})
 
 	const { fields, append, remove } = useFieldArray({
@@ -35,13 +30,9 @@ const NewArticleForm = () => {
 	const onSubmit = async articleData => {
 		console.log(articleData)
 		try {
-			const result = await newArticle(articleData).unwrap()
-			// console.log('пост ушел , пришел ответ:', result)
+			await newArticle(articleData).unwrap()
 			navigate('/')
-			// const result = await signUp(JSON.stringify({ user: userData })).unwrap()
-			// reset();
 		} catch (error) {
-			// console.error('Ошибка при регистрации:', error)
 			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
 		}
 	}
@@ -62,16 +53,16 @@ const NewArticleForm = () => {
 									required: 'Поле обязательно к заполнению',
 									minLength: {
 										value: 3,
-										message: 'Имя пользователя должно быть минимум 3 символа',
+										message: 'Заголовок должен быть минимум 3 символа',
 									},
 									maxLength: {
 										value: 20,
-										message: 'Имя пользователя не может быть более 20 символов',
+										message: 'Заголовок не может быть более 20 символов',
 									},
 									pattern: {
-										value: /^[a-zA-Z0-9_]+$/,
+										value: /^[a-zA-Z0-9_ ]+$/,
 										message:
-											'Имя пользователя может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
+											'Заголовок должен может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
 									},
 								})}
 							/>
@@ -94,16 +85,17 @@ const NewArticleForm = () => {
 									required: 'Поле обязательно к заполнению',
 									minLength: {
 										value: 3,
-										message: 'Имя пользователя должно быть минимум 3 символа',
+										message: 'Короткое описание должно быть минимум 3 символа',
 									},
 									maxLength: {
 										value: 20,
-										message: 'Имя пользователя не может быть более 20 символов',
+										message:
+											'Короткое описание не может быть более 20 символов',
 									},
 									pattern: {
-										value: /^[a-zA-Z0-9_]+$/,
+										value: /^[a-zA-Z0-9_ ]+$/,
 										message:
-											'Имя пользователя может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
+											'Короткое описание может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
 									},
 								})}
 							/>
@@ -128,16 +120,16 @@ const NewArticleForm = () => {
 									required: 'Поле обязательно к заполнению',
 									minLength: {
 										value: 3,
-										message: 'Имя пользователя должно быть минимум 3 символа',
+										message: 'Поле должно быть минимум 3 символа',
 									},
 									maxLength: {
 										value: 500,
-										message: 'Имя пользователя не может быть более 20 символов',
+										message: 'Поле не может быть более 500 символов',
 									},
 									pattern: {
-										value: /^[a-zA-Z0-9_]+$/,
+										value: /^[a-zA-Z0-9_ ]+$/,
 										message:
-											'Имя пользователя может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
+											'Поле может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
 									},
 								})}
 							/>
@@ -150,11 +142,9 @@ const NewArticleForm = () => {
 					{/* Tags */}
 					<div className={styles['tag-wrapper']}>
 						<div className={styles['input-wrapper']}>
-							{fields.length > 0 && ( // Условие для отображения заголовка
+							{fields.length > 0 && (
 								<label className={styles['label']}>Tags</label>
 							)}
-
-							{/* {fields.length === 0 && append('')} */}
 							{fields.map((item, index) => (
 								<div key={item.id} className={styles['tag-item']}>
 									<div className={styles['input-error']}>
@@ -169,7 +159,7 @@ const NewArticleForm = () => {
 												},
 												maxLength: {
 													value: 20,
-													message: 'Тэг не может быть более 10 символов',
+													message: 'Тэг не может быть более 20 символов',
 												},
 												pattern: {
 													value: /^[a-zA-Z0-9_]+$/,
@@ -177,7 +167,6 @@ const NewArticleForm = () => {
 														'Тэг может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
 												},
 											})}
-											// ref={register}
 											defaultValue={item.value}
 										/>
 
@@ -192,7 +181,6 @@ const NewArticleForm = () => {
 										className={styles['button-delTag']}
 										type='text'
 										onClick={() => remove(index)}
-										// disabled={fields.length <= 1}
 									>
 										Delete
 									</Button>
@@ -221,7 +209,6 @@ const NewArticleForm = () => {
 							Create
 						</button>
 					</div>
-					
 				</form>
 			</div>
 		</article>

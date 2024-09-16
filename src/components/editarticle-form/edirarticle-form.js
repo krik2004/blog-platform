@@ -23,7 +23,7 @@ const EditArticleForm = () => {
 		register,
 		formState: { errors, isValid },
 		handleSubmit,
-		setValue, // добавляем setValue для обновления значений формы
+		setValue, 
 		control,
 	} = useForm({
 		mode: 'onBlur',
@@ -45,7 +45,6 @@ const EditArticleForm = () => {
 		try {
 			await editArticle({ data: articleData, slug }).unwrap()
 			navigate('/')
-			// console.log('результат изменения статьи: ', result)
 		} catch (error) {
 			console.error('Ошибка при изменении статьи:', error)
 			alert(
@@ -55,7 +54,6 @@ const EditArticleForm = () => {
 	}
 
 	if (isArticleDataLoading) return <Spin indicator={<LoadingOutlined spin />} />
-	// console.log(data.article.tagList)
 	if (isArticleDataLoading && !data) {
 		return (
 			<div className={styles['error']}>
@@ -179,8 +177,6 @@ const EditArticleForm = () => {
 								{fields.length > 0 && (
 									<label className={styles['label']}>Tags</label>
 								)}
-
-								{/* {fields.length === 0 && append('')} */}
 								{fields.map((item, index) => (
 									<div key={item.id} className={styles['tag-item']}>
 										<div className={styles['input-error']}>
@@ -203,7 +199,6 @@ const EditArticleForm = () => {
 															'Тэг может содержать только буквы латинского алфавита, цифры и символ подчеркивания',
 													},
 												})}
-												// ref={register}
 												defaultValue={item}
 											/>
 
@@ -218,7 +213,6 @@ const EditArticleForm = () => {
 											className={styles['button-delTag']}
 											type='text'
 											onClick={() => remove(index)}
-											// disabled={fields.length <= 1}
 										>
 											Delete
 										</Button>

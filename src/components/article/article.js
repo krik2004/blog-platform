@@ -34,10 +34,6 @@ const Article = () => {
 		{ isLoadingUnfavoritedArticleData, unfavoritedArticleData },
 	] = articleApi.useUnfavoriteArticleMutation(slug)
 
-
-	// const [liked, setLiked] = useState(false)
-
-
 	if (isLoadingFavoritedArticleData) {
 		return <div>isLoadingFavoritedArticleData Loading...</div>
 	}
@@ -71,33 +67,20 @@ const Article = () => {
 	const { article } = data
 
 	const handleLike = async () => {
-		// setLiked(!liked)
 		if (!article.favorited) {
 			try {
-				const response = await favoriteArticle(slug)
-				console.log('like?', response.data.article.favorited)
-				// .data.article.favorited
+await favoriteArticle(slug)
 			} catch (error) {
 				console.log(error)
 			}
 		}else{
 			try {
-                const response = await unfavoriteArticle(slug)
-                console.log('like?', response.data.article.favorited)
-                //.data.article.favorited
+ await unfavoriteArticle(slug)
             } catch (error) {
                 console.log(error)
             }
 		}
 	}
-
-	// if (dataUser) {
-	// 	console.log('getUserInfoApi article: ', dataUser)
-	// }
-
-	// if (!isLoading || data) {
-	// 	console.log('автор статьи: ', article.author.username)
-	// }
 
 	const { format } = require('date-fns')
 

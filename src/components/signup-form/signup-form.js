@@ -9,7 +9,6 @@ const SignupForm = () => {
 		register,
 		formState: { errors, isValid },
 		handleSubmit,
-		// reset,
 		getValues,
 	} = useForm({
 		mode: 'onChange',
@@ -25,8 +24,6 @@ const SignupForm = () => {
 			const result = await signUp({ user: userData }).unwrap()
 			window.localStorage.setItem('user.token', result.user.token)
 			navigate('/')
-			// const result = await signUp(JSON.stringify({ user: userData })).unwrap()
-			// reset();
 		} catch (error) {
 			console.error('Ошибка при регистрации:', error)
 			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
@@ -150,9 +147,7 @@ const SignupForm = () => {
 							I agree to the processing of my personal information
 						</label>
 					</div>
-					{/* <div className={styles['error']}>
-						{errors?.terms && <span>{errors?.terms?.message || 'Error!'}</span>}
-					</div> */}
+
 					<div className={styles['button-wrapper']}>
 						<button
 							className={styles['button']}

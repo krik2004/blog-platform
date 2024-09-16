@@ -8,7 +8,7 @@ export const signInApi = baseApi.injectEndpoints({
         method: "POST",
         body: JSON.stringify(data),
         headers: {
-          "Content-Type": "application/json", // Убедитесь, что заголовок установлен
+          "Content-Type": "application/json",
         },
       }),
     }),

@@ -14,8 +14,6 @@ const SignInForm = () => {
 		register,
 		formState: { errors, isValid },
 		handleSubmit,
-		// reset,
-		getValues,
 	} = useForm({
 		mode: 'onChange',
 		reValidateMode: 'onBlur',
@@ -30,12 +28,8 @@ const SignInForm = () => {
 			const result = await signIn({ user: userData }).unwrap()
 			window.localStorage.setItem('user.token', result.user.token)
 			navigate('/')
-			// reset();
 		} catch (error) {
 			console.error('Ошибка при регистрации:', error)
-			//   alert(
-			//     "Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз."
-			//   );
 		}
 	}
 
@@ -110,8 +104,6 @@ const SignInForm = () => {
 					</div>
 					<span className={styles['sign-in']}>
 						Don’t have an account? <Link to='/sign-up'>Sign Up.</Link>
-						{/* {isLoading && <p>Загрузка...</p>} */}
-						{/* {response && <p>Регистрация прошла успешно!</p>} */}
 					</span>
 				</form>
 			</div>
