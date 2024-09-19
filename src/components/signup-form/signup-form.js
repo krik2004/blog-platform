@@ -15,7 +15,7 @@ const SignupForm = () => {
 		reValidateMode: 'onBlur',
 	})
 
-	const [signUp, { isLoading, response }] = signUpApi.useSignUpMutation()
+	const [signUp, { isLoading, response, error }] = signUpApi.useSignUpMutation()
 	const navigate = useNavigate()
 	const onSubmit = async userData => {
 		delete userData.repeatpassword
@@ -26,10 +26,18 @@ const SignupForm = () => {
 			navigate('/')
 		} catch (error) {
 			console.error('Ошибка при регистрации:', error)
-			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
+			// alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
 		}
 	}
 
+	// if (error) {
+	// 	return (
+	// 		<div className='error'>
+	// 			{error.data.errors.username}
+	// 			{error.data.errors.email}
+	// 		</div>
+	// 	)
+	// }
 	return (
 		<article className={styles['signup-form']}>
 			<div className={styles['content-wrapper']}>
@@ -63,6 +71,10 @@ const SignupForm = () => {
 							{errors?.username && (
 								<span>{errors?.username?.message || 'Error!'}</span>
 							)}
+							{error?.data?.errors?.username && (
+								<span>{'Имя пользователя уже занято'}</span>
+							)}
+
 						</div>
 					</div>
 					<div className={styles['input-wrapper']}>
@@ -84,6 +96,7 @@ const SignupForm = () => {
 							{errors?.email && (
 								<span>{errors?.email?.message || 'Error!'}</span>
 							)}
+							{error?.data?.errors?.email && <span>{'Email уже занят'}</span>}
 						</div>
 					</div>
 					<div className={styles['input-wrapper']}>

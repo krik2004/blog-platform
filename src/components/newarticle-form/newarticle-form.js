@@ -4,9 +4,9 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { newArticleApi } from './api-newarticle'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
+import { useEffect } from 'react'
 
 const NewArticleForm = () => {
-	const maxtags = 4
 	const {
 		register,
 		formState: { errors, isValid },
@@ -36,6 +36,14 @@ const NewArticleForm = () => {
 			alert('Произошла ошибка при регистрации, пожалуйста, попробуйте еще раз.')
 		}
 	}
+
+	const userToken = window.localStorage.getItem('user.token')
+
+	useEffect(() => {
+		if (!userToken) {
+			navigate('/sign-up')
+		}
+	}, [userToken, navigate])
 
 	return (
 		<article className={styles['newarticle-form']}>

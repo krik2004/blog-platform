@@ -107,7 +107,7 @@ await favoriteArticle(slug)
 			<div className={styles['article__content-wrapper']}>
 				<div className={styles['article__title-wrapper']}>
 					<h5 className={styles.article__title}>{article.title}</h5>
-					<Button onClick={handleLike} type='link'>
+					<Button onClick={handleLike} type='link' disabled={!userToken1}>
 						{article.favorited ? (
 							<HeartFilled style={{ color: 'red' }} />
 						) : (

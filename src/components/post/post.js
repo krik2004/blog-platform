@@ -20,6 +20,10 @@ const Post = post => {
 		{ isLoadingUnfavoritedArticleData, unfavoritedArticleData },
 	] = articleApi.useUnfavoriteArticleMutation(post.post.slug)
 
+	const userToken = window.localStorage.getItem('user.token')
+
+
+
 	const handleLike = async () => {
 		if (!post.post.favorited) {
 			try {
@@ -53,7 +57,7 @@ const Post = post => {
 						<Link to={`article/${post.post.slug}`}>{post.post.title}</Link>
 					</h5>
 
-					<Button onClick={handleLike} type='link'>
+					<Button onClick={handleLike} type='link' disabled={!userToken}>
 						{post.post.favorited ? (
 							<HeartFilled style={{ color: 'red' }} />
 						) : (

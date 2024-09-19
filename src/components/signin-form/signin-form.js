@@ -19,7 +19,7 @@ const SignInForm = () => {
 		reValidateMode: 'onBlur',
 	})
 
-	const [signIn, { isLoading, response }] = signInApi.useSignInMutation()
+	const [signIn, { isLoading, response, error }] = signInApi.useSignInMutation()
 
 	const navigate = useNavigate()
 
@@ -82,6 +82,9 @@ const SignInForm = () => {
 						<div className={styles['error']}>
 							{errors?.password && (
 								<span>{errors?.password?.message || 'Error!'}</span>
+							)}
+							{error?.data?.errors && (
+								<span>{'Email или пароль введены неверно'}</span>
 							)}
 						</div>
 					</div>
