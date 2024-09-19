@@ -19,7 +19,7 @@ const Article = () => {
 	const {
 		data: dataUser,
 		isLoadingUser,
-		errorUser,
+		error: errorUser,
 	} = getUserInfoApi.useGetUserInfoQuery(userToken1 || '', {
 		skip: !userToken1,
 	})
@@ -63,22 +63,22 @@ const Article = () => {
 	if (!data) {
 		return <div>Error: No articles found.</div>
 	}
-	console.log(data)
+
 	const { article } = data
 
 	const handleLike = async () => {
 		if (!article.favorited) {
 			try {
-await favoriteArticle(slug)
+				await favoriteArticle(slug)
 			} catch (error) {
 				console.log(error)
 			}
-		}else{
+		} else {
 			try {
- await unfavoriteArticle(slug)
-            } catch (error) {
-                console.log(error)
-            }
+				await unfavoriteArticle(slug)
+			} catch (error) {
+				console.log(error)
+			}
 		}
 	}
 
@@ -93,11 +93,19 @@ await favoriteArticle(slug)
 		}
 	}
 
-	if (!dataUser) {
-		return <div>Loading user data...</div>
+	if (errorUser) {
+		return <div>Error loading user data: {errorUser.message}</div>
 	}
 
-	const isAuthor = article.author.username === dataUser.user.username
+	// if (!dataUser) {
+	// 	return <div>No user data available.</div>
+	// }
+	let isAuthor = true
+	if (userToken1) {
+		isAuthor = article.author.username === dataUser.user.username
+	} else {
+		isAuthor = false
+	}
 
 	const handleEditArticle = () => {
 		navigate(`/articles/${slug}/edit`)
