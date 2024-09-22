@@ -13,6 +13,7 @@ const Header = () => {
 	const handleClickSignOut = () => {
 		window.localStorage.removeItem('user.token')
 		navigate('/')
+		window.location.reload()
 	}
 	const handleClickSignIn = () => {
 		navigate('/sign-in')
